@@ -19,11 +19,13 @@ mobileNav.querySelectorAll('a').forEach(link => {
 // ── HERO SLIDER ───────────────────────────────────────────
 const slides   = document.querySelectorAll('.hero-slide');
 const dots     = document.querySelectorAll('.hero-dot');
-const slider   = document.querySelector('.hero');
-const INTERVAL = 5500;
-let current    = 0;
-let timer      = null;
-const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const slider   = document.querySelector('.hero-slider');
+const pauseBtn = document.getElementById('heroPause');
+const INTERVAL = 6000;
+let current = 0;
+let timer   = null;
+let paused  = false;
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function goTo(index) {
   slides[current].classList.remove('active');
@@ -38,24 +40,37 @@ function goTo(index) {
 }
 
 function startTimer() {
-  if (reduced) return;
+  if (reduced || paused) return;
   clearInterval(timer);
   timer = setInterval(() => goTo(current + 1), INTERVAL);
 }
 
-dots.forEach((dot, i) => {
-  dot.addEventListener('click', () => { goTo(i); startTimer(); });
-});
+if (!reduced) {
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { goTo(i); startTimer(); });
+  });
 
-slider.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight') { goTo(current + 1); startTimer(); }
-  if (e.key === 'ArrowLeft')  { goTo(current - 1); startTimer(); }
-});
+  slider.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { goTo(current + 1); startTimer(); }
+    if (e.key === 'ArrowLeft')  { goTo(current - 1); startTimer(); }
+  });
 
-slider.addEventListener('mouseenter', () => clearInterval(timer));
-slider.addEventListener('mouseleave', startTimer);
+  slider.addEventListener('mouseenter', () => clearInterval(timer));
+  slider.addEventListener('mouseleave', () => { if (!paused) startTimer(); });
 
-startTimer();
+  pauseBtn.addEventListener('click', () => {
+    paused = !paused;
+    pauseBtn.classList.toggle('paused', paused);
+    pauseBtn.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
+    if (paused) {
+      clearInterval(timer);
+    } else {
+      startTimer();
+    }
+  });
+
+  startTimer();
+}
 
 // ── ACTIVE NAV ON SCROLL ──────────────────────────────────
 const sections = document.querySelectorAll('section[id]');
