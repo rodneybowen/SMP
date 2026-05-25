@@ -88,3 +88,23 @@ const observer = new IntersectionObserver(entries => {
 }, { rootMargin: '-10% 0px -70% 0px' });
 
 sections.forEach(s => observer.observe(s));
+
+// ── SCROLL REVEAL ──────────────────────────────────────────
+if (!reduced) {
+  const revealTargets = document.querySelectorAll(
+    '.about-grid, .printing-grid, .services-header, .services-grid, .services-bottom, .process-header, .process-grid, .team-header, .team-list, .contact-header, .contact-grid'
+  );
+  revealTargets.forEach(el => el.classList.add('reveal'));
+
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealTargets.forEach(el => revealObs.observe(el));
+  document.body.classList.add('reveal-ready');
+}
