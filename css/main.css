@@ -722,52 +722,44 @@ section { padding: var(--section-y) 0; }
 
 /* ── PROCESS ─────────────────────────────────────────── */
 .process-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
-  position: relative;
-}
-.process-grid::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 8%;
-  right: 8%;
-  height: 1px;
-  background: var(--border);
-  pointer-events: none;
-  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 800px;
+  margin: 0 auto;
 }
 .process-step {
-  text-align: center;
-  position: relative;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  align-items: start;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+.process-step:last-child {
+  border-bottom: none;
 }
 .step-number {
   font-family: var(--font-head);
-  font-size: 20px;
+  font-size: 48px;
   font-weight: 700;
   color: var(--blue);
   line-height: 1;
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  background: var(--bg-light);
-  padding: 0 8px;
 }
 .step-title {
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text);
-  margin: 8px 0 6px;
+  margin: 0 0 6px;
   line-height: 1.3;
 }
 .step-body {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -973,13 +965,6 @@ footer {
   .industries-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  .process-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px 16px;
-  }
-  .process-grid::before { display: none; }
-  .step-number { background: transparent; }
 }
 
 /* ── RESPONSIVE: MOBILE (≤768px) ─────────────────────── */
@@ -1015,8 +1000,13 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .process-grid { grid-template-columns: 1fr; }
-  .process-step p { max-width: none; }
+  .process-step {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .step-number {
+    font-size: 32px;
+  }
 
   .team-grid {
     grid-template-columns: 1fr;
