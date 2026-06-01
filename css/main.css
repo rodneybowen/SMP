@@ -698,13 +698,14 @@ section { padding: var(--section-y) 0; }
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: var(--gap-card);
+  align-items: start;
 }
 .industry-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 24px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-items: center;
+  row-gap: 12px;
+  padding: 24px 12px;
   text-align: center;
 }
 .industry-tile svg {
@@ -718,6 +719,16 @@ section { padding: var(--section-y) 0; }
   font-size: 14px;
   font-weight: 500;
   color: var(--text);
+  line-height: 1.4;
+  max-width: 14ch;
+}
+.industries-lead {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 720px;
+  margin: 40px auto 0;
+  text-align: center;
+  line-height: 1.65;
 }
 
 /* ── PROCESS ─────────────────────────────────────────── */
